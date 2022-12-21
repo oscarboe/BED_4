@@ -12,7 +12,6 @@ builder.Services.AddSingleton<CardsService>();
 
 
 var app = builder.Build();
-app.u
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
