@@ -23,6 +23,7 @@ public class CardsService
     public CardsService(
         IOptions<HearthstoneDBSettings> mongoDbSettings)
     {
+        
         var mongoClient = new MongoClient(
             mongoDbSettings.Value.ConnectionString);
 
@@ -62,16 +63,9 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int id)
+    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
     {
-        //IMongoQueryable<F> stuff = from f in _facilitiesCollection.AsQueryable()
-        //                           orderby f.kind
-        //                           select new F
-        //                           {
-        //                               name = f.facilityName,
-        //                               address = f.coordinates,
-        //                           };
-        //return await stuff.ToListAsync();
+        var cards = await _cardsCollection.AsQueryable().ToListAsync();
 
         var stuff = await _cardsCollection
                         .Find(new BsonDocument())

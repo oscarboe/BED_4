@@ -1,9 +1,12 @@
+using Heathstone.Models;
 using Heathstone.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<HearthstoneDBSettings>
+    (builder.Configuration.GetSection(nameof(HearthstoneDBSettings)));
 // Add services to the container.
-builder.Services.AddSingleton<MongoService>();
+builder.Services.AddSingleton<CardsService>();
 
 
 
