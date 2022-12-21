@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Heathstone.Models;
 
-namespace MTGCollection.Services;
+namespace Heathstone.Services;
 
 public class MongoService
 {
@@ -10,9 +10,9 @@ public class MongoService
     private readonly MongoClient _client;
     public MongoService()
     {
-        _client = new MongoClient("mongodb://localhost:5000");
+       // _client = new MongoClient("mongodb://localhost:5000");
         var db = _client.GetDatabase("mtg");
-        if (_client.GetDatabase("mtg").ListCollections().ToList().Count == 0)
+        if (_client.GetDatabase("heathstone").ListCollections().ToList().Count == 0)
         {
             var collection = db.GetCollection<Card>("cards");
             foreach (var path in new[] { "cards.json" })
