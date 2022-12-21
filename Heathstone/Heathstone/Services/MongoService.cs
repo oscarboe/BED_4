@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using System.Text.Json;
 
-namespace MTGCollection.Services;
+namespace MTGCollection.Services {
 
 public class MongoService
 {
@@ -34,4 +34,5 @@ public class MongoService
             return _client;
         }
     }
+}
 }
