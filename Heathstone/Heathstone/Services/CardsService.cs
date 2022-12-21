@@ -15,10 +15,11 @@ namespace Heathstone.Services;
 public class CardsService
     {
     private readonly IMongoCollection<Card> _cardsCollection;
-    private readonly IMongoCollection<JsonObject> _cardTypesCollection;
-    //private readonly IMongoCollection<Class> _classesCollection;
-    //private readonly IMongoCollection<Rarity> _raritiesCollection;
-    //private readonly IMongoCollection<Set> _setsCollection;
+    private readonly IMongoCollection<CardType> _cardTypesCollection;
+    private readonly IMongoCollection<Class> _classesCollection;
+    private readonly IMongoCollection<Rarity> _raritiesCollection;
+    private readonly IMongoCollection<Set> _setsCollection;
+    private readonly IMongoCollection<Metadata> _metaCollection;
 
     public CardsService(
         IOptions<HearthstoneDBSettings> mongoDbSettings)
@@ -33,8 +34,10 @@ public class CardsService
         _cardsCollection = mongoDatabase.GetCollection<Card>(
             mongoDbSettings.Value.CardsCollectionName);
 
-        _cardTypesCollection = mongoDatabase.GetCollection<JsonObject>(
+        _metaCollection = mongoDatabase.GetCollection<Metadata>(
             mongoDbSettings.Value.MetaDataCollection);
+
+        _cardTypesCollection = _metaCollection.Find(f => f.Types == "Types")
 
         //_classesCollection = mongoDatabase.GetCollection<Class>(
         //    mongoDbSettings.Value.FacilitiesCollectionName);
@@ -63,20 +66,20 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
-    {
-        var cards = await _cardsCollection.AsQueryable().ToListAsync();
+    //public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
+    //{
+    //    var cards = await _cardsCollection.AsQueryable().ToListAsync();
 
-        var stuff = await _cardsCollection
-                        .Find(new BsonDocument())
-                        .Skip((id - 1) * 100)
-                        .Limit(100)
-                        .ForEachAsync(f => 
-                            new F 
-                            { 
-                                Id = f.Id, 
-                                Name = f.Name, 
-                                Class = 
-                            });
-    }
+    //    var stuff = await _cardsCollection
+    //                    .Find(new BsonDocument())
+    //                    .Skip((id - 1) * 100)
+    //                    .Limit(100)
+    //                    .ForEachAsync(f => 
+    //                        new F 
+    //                        { 
+    //                            Id = f.Id, 
+    //                            Name = f.Name, 
+    //                            Class = 
+    //                        });
+    //}
 }

@@ -8,6 +8,12 @@ public class HearthstoneDBSettings
     public string DatabaseName { get; set; } = null!;
 
     public string  CardsCollectionName { get; set; } = null!;
-    public string MetaDataCollection { get; set; } = null!;
 
+    public string ClassesCollectionName { get; set; } = null!;
+
+    public string RaritiesCollectionName { get; set; } = null!;
+
+    public string SetsCollectionName { get; set; } = null!;
+
+    public string TypesCollectionName { get; set; } = null!;
 }
