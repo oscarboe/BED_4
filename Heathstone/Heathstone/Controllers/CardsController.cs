@@ -4,7 +4,7 @@ using static Heathstone.Services.CardsService;
 
 namespace Heathstone.Controllers
 {
-    [Route("cards?=")]
+    [Route("cards")]
     [ApiController]
     public class CardsController : Controller
     {
