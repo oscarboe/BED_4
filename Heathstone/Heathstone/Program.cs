@@ -7,13 +7,12 @@ builder.Services.Configure<HearthstoneDBSettings>
     (builder.Configuration.GetSection(nameof(HearthstoneDBSettings)));
 // Add services to the container.
 builder.Services.AddSingleton<CardsService>();
-builder.Services.AddSingleton<SeedService>();
 
 
 
 
 var app = builder.Build();
-
+app.u
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
