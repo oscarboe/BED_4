@@ -13,8 +13,8 @@ namespace Heathstone.Controllers
         public CardsController(CardsService cardsService) =>
             _cardsService = cardsService;
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<IEnumerable<F>>> GetCards(int id) =>
-            await _cardsService.GetCards(id);
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page, int? setid, string? artist, int? rarityid, int? classid) =>
+            await _cardsService.GetCards(page, setid, artist, rarityid, classid);
     }
 }

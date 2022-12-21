@@ -64,28 +64,18 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? id)
+    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page, int? setid, string? artist, int? rarityid, int? classid)
     {
-        //var stuff = await _cardsCollection
-        //                .Find(new BsonDocument())
-        //                .Skip((id - 1) * 100)
-        //                .Limit(100)
-        //                .ForEachAsync(f =>
-        //                    new F
-        //                    {
-        //                        Id = f.Id,
-        //                        Name = f.Name,
-        //                        Class = (from c in _classesCollection.AsQueryable()
-        //                                 where c.Id == f.ClassId
-        //                                 select c.Name).FirstOrDefault()
-        //                    });
-
         List<F> stuff = new();
         int i = 0;
         foreach(Card card in _cardsCollection.AsQueryable())
         {
             i++;
-            if (i > ((id - 1) * 100) && i <= id * 100)
+            if (i > (page != null ? (page - 1) * 100 : 0) && i <= (page != null ? page * 100 : 4100) && 
+                    (setid != null ? setid : card.cardSetId) == card.cardSetId &&
+                    (artist != null ? artist : card.artistName) == card.artistName &&
+                    (rarityid != null ? rarityid : card.RarityId) == card.RarityId &&
+                    (classid != null ? classid : card.ClassId) == card.ClassId)
             {
                 stuff.Add(new F
                 {
