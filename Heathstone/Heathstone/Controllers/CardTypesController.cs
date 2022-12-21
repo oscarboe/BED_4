@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Heathstone.Controllers
 {
-    [Route("cardtypes")]
+    [Route("types")]
     [ApiController]
     public class CardTypesController : Controller
     {
