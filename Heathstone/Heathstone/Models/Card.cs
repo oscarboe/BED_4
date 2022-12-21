@@ -1,12 +1,18 @@
-﻿namespace Heathstone.Models
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+
+namespace Heathstone.Models
 {
     public class Card
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string _id { get; set; }
         public int Id { get; set; }
         public String Name { get; set; }
         public int ClassId { get; set; }
-        public int TypeId { get; set; }
-        public int SetId { get; set; }
+        public int cardTypeId { get; set; }
+        public int cardSetId { get; set; }
         public int? SpellSchoolId { get; set; }
         public int RarityId { get; set; }
         public int? Health { get; set; }

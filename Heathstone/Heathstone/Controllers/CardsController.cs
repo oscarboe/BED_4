@@ -4,7 +4,7 @@ using static Heathstone.Services.CardsService;
 
 namespace Heathstone.Controllers
 {
-    [Route("cards")]
+    [Route("cards?=")]
     [ApiController]
     public class CardsController : Controller
     {
@@ -13,8 +13,8 @@ namespace Heathstone.Controllers
         public CardsController(CardsService cardsService) =>
             _cardsService = cardsService;
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<F>>> GetCards() =>
-            await _cardsService.GetCards(1);
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<IEnumerable<F>>> GetCards(int id) =>
+            await _cardsService.GetCards(id);
     }
 }

@@ -64,7 +64,7 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int id)
+    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? id)
     {
         //var stuff = await _cardsCollection
         //                .Find(new BsonDocument())
@@ -81,9 +81,10 @@ public class CardsService
         //                    });
 
         List<F> stuff = new();
-        int i = 1;
+        int i = 0;
         foreach(Card card in _cardsCollection.AsQueryable())
         {
+            i++;
             if (i > ((id - 1) * 100) && i <= id * 100)
             {
                 stuff.Add(new F
