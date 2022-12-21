@@ -7,6 +7,7 @@ public class HearthstoneDBSettings
 
     public string DatabaseName { get; set; } = null!;
 
-    public string BooksCollectionName { get; set; } = null!;
+    public string  CardsCollectionName { get; set; } = null!;
+    public string MetaDataCollection { get; set; } = null!;
 
 }
