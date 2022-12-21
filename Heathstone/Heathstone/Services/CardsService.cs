@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Heathstone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -14,9 +16,10 @@ public class CardsService
     {
     private readonly IMongoCollection<Card> _cardsCollection;
     private readonly IMongoCollection<CardType> _cardTypesCollection;
-    private readonly IMongoCollection<SeedService> _classesCollection;
+    private readonly IMongoCollection<Class> _classesCollection;
     private readonly IMongoCollection<Rarity> _raritiesCollection;
     private readonly IMongoCollection<Set> _setsCollection;
+    private readonly IMongoCollection<Metadata> _metaCollection;
 
     public CardsService(
         IOptions<HearthstoneDBSettings> mongoDbSettings)
@@ -31,17 +34,19 @@ public class CardsService
         _cardsCollection = mongoDatabase.GetCollection<Card>(
             mongoDbSettings.Value.CardsCollectionName);
 
-     /*   _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
-            mongoDbSettings.Value.MetaDataCollection.Select(Array a => a).Where(x => x == "CardTypes").First());
+        _metaCollection = mongoDatabase.GetCollection<Metadata>(
+            mongoDbSettings.Value.MetaDataCollection);
 
-        _classesCollection = mongoDatabase.GetCollection<SeedService>(
-            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Classes").First());
+        _cardTypesCollection = _metaCollection.Find(f => f.Types == "Types")
 
-        _raritiesCollection = mongoDatabase.GetCollection<Rarity>(
-            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Rarities").First());
+        //_classesCollection = mongoDatabase.GetCollection<Class>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
 
-        _setsCollection = mongoDatabase.GetCollection<Set>(
-            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Sets").First());*/
+        //_raritiesCollection = mongoDatabase.GetCollection<Rarity>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
+
+        //_setsCollection = mongoDatabase.GetCollection<Set>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
     }
 
     public class F
@@ -61,11 +66,20 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-//    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
-//    {
-//        var cards = await _cardsCollection.AsQueryable().ToListAsync();
+    //public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
+    //{
+    //    var cards = await _cardsCollection.AsQueryable().ToListAsync();
 
-//        _cardsCollection.Aggregate();
-//        return result.ToList();
-//    }
+    //    var stuff = await _cardsCollection
+    //                    .Find(new BsonDocument())
+    //                    .Skip((id - 1) * 100)
+    //                    .Limit(100)
+    //                    .ForEachAsync(f => 
+    //                        new F 
+    //                        { 
+    //                            Id = f.Id, 
+    //                            Name = f.Name, 
+    //                            Class = 
+    //                        });
+    //}
 }
