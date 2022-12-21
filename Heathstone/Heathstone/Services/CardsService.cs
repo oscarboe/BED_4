@@ -64,6 +64,33 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
+    public async Task<ActionResult<IEnumerable<Set>>> GetSets()
+    {
+        var sets = await _setsCollection.AsQueryable().ToListAsync();
+        return sets;
+    }
+    
+    public async Task<ActionResult<IEnumerable<CardType>>> GetCardType()
+    {
+        var cardTypes = await _cardTypesCollection.AsQueryable().ToListAsync();
+        return cardTypes;
+    }
+
+    public async Task<ActionResult<IEnumerable<Class>>> GetClasses()
+    {
+        var classes = await _classesCollection.AsQueryable().ToListAsync();
+        return classes;
+    }
+
+    public async Task<ActionResult<IEnumerable<Rarity>>> GetRarities()
+    {
+        var rarities = await _raritiesCollection.AsQueryable().ToListAsync();
+        return rarities;
+    }
+
+
+
+
     public async Task<ActionResult<IEnumerable<F>>> GetCards(int? id)
     {
         //var stuff = await _cardsCollection
