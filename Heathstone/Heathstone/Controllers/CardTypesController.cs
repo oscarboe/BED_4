@@ -8,21 +8,15 @@ namespace Heathstone.Controllers
     [ApiController]
     public class CardTypesController : Controller
     {
-        private readonly CardsService _Service;
+        private readonly CardTypesService _Service;
 
-        public CardTypesController(CardsService service)
+        public CardTypesController(CardTypesService service)
         {
             _Service = service;
-
         }
 
-
-
-
-        [HttpGet()]
-        public async Task<ActionResult<IEnumerable<CardType>>> GetCardType()
-        {
-            return await _Service.GetCardType();
-        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CardType>>> GetCardType() =>
+            await _Service.GetCardType();
     }
 }

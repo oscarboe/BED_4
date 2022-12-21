@@ -1,7 +1,6 @@
 ﻿using Heathstone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Heathstone.Services;
-using static Heathstone.Services.CardsService;
 
 namespace Heathstone.Controllers
 {
@@ -9,21 +8,15 @@ namespace Heathstone.Controllers
     [ApiController]
     public class SetsController : Controller
     {
-        private readonly CardsService _Service;
+        private readonly SetsService _Service;
 
-        public SetsController(CardsService service)
+        public SetsController(SetsService service)
         {
             _Service = service;
-
         }
 
-
-
-
-        [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Set>>> GetSets()
-        {
-            return await _Service.GetSets();
-        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Set>>> GetSets() =>
+            await _Service.GetSets();
     }
 }

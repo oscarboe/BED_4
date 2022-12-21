@@ -12,6 +12,10 @@ builder.Services.Configure<HearthstoneDBSettings>
     (builder.Configuration.GetSection("HearthstoneDatabase"));
 // Add services to the container.
 builder.Services.AddSingleton<CardsService>();
+builder.Services.AddSingleton<CardTypesService>();
+builder.Services.AddSingleton<ClassesService>();
+builder.Services.AddSingleton<RaritiesService>();
+builder.Services.AddSingleton<SetsService>();
 
 builder.Services.AddControllers();
 
