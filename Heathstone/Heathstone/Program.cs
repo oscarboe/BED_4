@@ -9,7 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<HearthstoneDBSettings>
-    (builder.Configuration.GetSection("HeathstoneDatabase"));
+    (builder.Configuration.GetSection("HearthstoneDatabase"));
 // Add services to the container.
 builder.Services.AddSingleton<CardsService>();
 
