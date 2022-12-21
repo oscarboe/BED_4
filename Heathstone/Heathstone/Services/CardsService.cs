@@ -95,14 +95,14 @@ public class CardsService
                              where c.Id == card.ClassId
                              select c.Name).FirstOrDefault(),
                     Type = (from t in _cardTypesCollection.AsQueryable()
-                            where t.Id == card.ClassId
+                            where t.Id == card.cardTypeId
                             select t.Name).FirstOrDefault(),
                     Set = (from s in _setsCollection.AsQueryable()
-                           where s.Id == card.ClassId
+                           where s.Id == card.cardSetId
                            select s.Name).FirstOrDefault(),
                     SpellSchoolId = card.SpellSchoolId,
                     Rarity = (from r in _raritiesCollection.AsQueryable()
-                              where r.Id == card.ClassId
+                              where r.Id == card.RarityId
                               select r.Name).FirstOrDefault(),
                     Health = card.Health,
                     Attack = card.Attack,
