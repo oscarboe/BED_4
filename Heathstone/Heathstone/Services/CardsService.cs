@@ -54,7 +54,7 @@ public class CardsService
         public String Class { get; set; }
         public String Type { get; set; }
         public String Set { get; set; }
-        public String? SpellSchool { get; set; }
+        public int? SpellSchoolId { get; set; }
         public String Rarity { get; set; }
         public int? Health { get; set; }
         public int? Attack { get; set; }
@@ -96,6 +96,19 @@ public class CardsService
                     Type = (from t in _cardTypesCollection.AsQueryable()
                             where t.Id == card.ClassId
                             select t.Name).FirstOrDefault(),
+                    Set = (from s in _setsCollection.AsQueryable()
+                           where s.Id == card.ClassId
+                           select s.Name).FirstOrDefault(),
+                    SpellSchoolId = card.SpellSchoolId,
+                    Rarity = (from r in _raritiesCollection.AsQueryable()
+                              where r.Id == card.ClassId
+                              select r.Name).FirstOrDefault(),
+                    Health = card.Health,
+                    Attack = card.Attack,
+                    ManaCost = card.ManaCost,
+                    Artist = card.artistName,
+                    Text = card.Text,
+                    FlavorText = card.FlavorText,
                 });
                 }
         }

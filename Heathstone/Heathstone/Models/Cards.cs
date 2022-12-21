@@ -12,7 +12,7 @@
         public int? Health { get; set; }
         public int? Attack { get; set; }
         public int ManaCost { get; set; }
-        public String Artist { get; set; }
+        public String artistName { get; set; }
         public String Text { get; set; }
         public String FlavorText { get; set; }
     }
