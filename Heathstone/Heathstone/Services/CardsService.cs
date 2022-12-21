@@ -14,7 +14,7 @@ public class CardsService
     {
     private readonly IMongoCollection<Card> _cardsCollection;
     private readonly IMongoCollection<CardType> _cardTypesCollection;
-    private readonly IMongoCollection<Class> _classesCollection;
+    private readonly IMongoCollection<SeedService> _classesCollection;
     private readonly IMongoCollection<Rarity> _raritiesCollection;
     private readonly IMongoCollection<Set> _setsCollection;
 
@@ -31,17 +31,17 @@ public class CardsService
         _cardsCollection = mongoDatabase.GetCollection<Card>(
             mongoDbSettings.Value.CardsCollectionName);
 
-        _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
-            mongoDbSettings.Value.MetaDataCollection.Select(null).Where(x => x == "CardTypes").First());
+     /*   _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
+            mongoDbSettings.Value.MetaDataCollection.Select(Array a => a).Where(x => x == "CardTypes").First());
 
-        _classesCollection = mongoDatabase.GetCollection<Class>(
+        _classesCollection = mongoDatabase.GetCollection<SeedService>(
             mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Classes").First());
 
         _raritiesCollection = mongoDatabase.GetCollection<Rarity>(
             mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Rarities").First());
 
         _setsCollection = mongoDatabase.GetCollection<Set>(
-            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Sets").First());
+            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Sets").First());*/
     }
 
     public class F
@@ -61,11 +61,11 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
-    {
-        var cards = await _cardsCollection.AsQueryable().ToListAsync();
+//    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
+//    {
+//        var cards = await _cardsCollection.AsQueryable().ToListAsync();
 
-        _cardsCollection.Aggregate();
-        return result.ToList();
-    }
+//        _cardsCollection.Aggregate();
+//        return result.ToList();
+//    }
 }

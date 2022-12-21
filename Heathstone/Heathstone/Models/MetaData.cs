@@ -1,6 +1,6 @@
 ﻿namespace Heathstone.Models
 {
-    public class Metadata
+    public class MetaData
     {
         public List<Set>? Sets { get; set; }
         public List<Rarity>? Rarities { get; set; }
