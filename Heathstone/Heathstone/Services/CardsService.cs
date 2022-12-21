@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using static Heathstone.Services.CardsService;
 
 namespace Heathstone.Services;
 
@@ -19,7 +20,6 @@ public class CardsService
     private readonly IMongoCollection<Class> _classesCollection;
     private readonly IMongoCollection<Rarity> _raritiesCollection;
     private readonly IMongoCollection<Set> _setsCollection;
-    private readonly IMongoCollection<Metadata> _metaCollection;
 
     public CardsService(
         IOptions<HearthstoneDBSettings> mongoDbSettings)
@@ -34,19 +34,17 @@ public class CardsService
         _cardsCollection = mongoDatabase.GetCollection<Card>(
             mongoDbSettings.Value.CardsCollectionName);
 
-        _metaCollection = mongoDatabase.GetCollection<Metadata>(
-            mongoDbSettings.Value.MetaDataCollection);
+        _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
+            mongoDbSettings.Value.TypesCollectionName);
 
-        _cardTypesCollection = _metaCollection.Find(f => f.Types == "Types")
+        _classesCollection = mongoDatabase.GetCollection<Class>(
+            mongoDbSettings.Value.ClassesCollectionName);
 
-        //_classesCollection = mongoDatabase.GetCollection<Class>(
-        //    mongoDbSettings.Value.FacilitiesCollectionName);
+        _raritiesCollection = mongoDatabase.GetCollection<Rarity>(
+            mongoDbSettings.Value.RaritiesCollectionName);
 
-        //_raritiesCollection = mongoDatabase.GetCollection<Rarity>(
-        //    mongoDbSettings.Value.FacilitiesCollectionName);
-
-        //_setsCollection = mongoDatabase.GetCollection<Set>(
-        //    mongoDbSettings.Value.FacilitiesCollectionName);
+        _setsCollection = mongoDatabase.GetCollection<Set>(
+            mongoDbSettings.Value.SetsCollectionName);
     }
 
     public class F
@@ -66,20 +64,42 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    //public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
-    //{
-    //    var cards = await _cardsCollection.AsQueryable().ToListAsync();
+    public async Task<ActionResult<IEnumerable<F>>> GetCards(int id)
+    {
+        //var stuff = await _cardsCollection
+        //                .Find(new BsonDocument())
+        //                .Skip((id - 1) * 100)
+        //                .Limit(100)
+        //                .ForEachAsync(f =>
+        //                    new F
+        //                    {
+        //                        Id = f.Id,
+        //                        Name = f.Name,
+        //                        Class = (from c in _classesCollection.AsQueryable()
+        //                                 where c.Id == f.ClassId
+        //                                 select c.Name).FirstOrDefault()
+        //                    });
 
-    //    var stuff = await _cardsCollection
-    //                    .Find(new BsonDocument())
-    //                    .Skip((id - 1) * 100)
-    //                    .Limit(100)
-    //                    .ForEachAsync(f => 
-    //                        new F 
-    //                        { 
-    //                            Id = f.Id, 
-    //                            Name = f.Name, 
-    //                            Class = 
-    //                        });
-    //}
+        List<F> stuff = new();
+        int i = 1;
+        foreach(Card card in _cardsCollection.AsQueryable())
+        {
+            if (i > ((id - 1) * 100) && i <= id * 100)
+            {
+                stuff.Add(new F
+                {
+                    Id = card.Id,
+                    Name = card.Name,
+                    Class = (from c in _classesCollection.AsQueryable()
+                             where c.Id == card.ClassId
+                             select c.Name).FirstOrDefault(),
+                    Type = (from t in _cardTypesCollection.AsQueryable()
+                            where t.Id == card.ClassId
+                            select t.Name).FirstOrDefault(),
+                });
+                }
+        }
+
+        return stuff;
+    }
 }
