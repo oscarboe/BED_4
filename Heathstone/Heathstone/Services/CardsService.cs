@@ -19,8 +19,9 @@ public class CardsService
     private readonly IMongoCollection<Set> _setsCollection;
 
     public CardsService(
-        IOptions<mongoDBSettings> mongoDbSettings)
+        IOptions<HearthstoneDBSettings> mongoDbSettings)
     {
+        
         var mongoClient = new MongoClient(
             mongoDbSettings.Value.ConnectionString);
 
@@ -28,19 +29,19 @@ public class CardsService
             mongoDbSettings.Value.DatabaseName);
 
         _cardsCollection = mongoDatabase.GetCollection<Card>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.CardsCollectionName);
 
         _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.MetaDataCollection.Select(null).Where(x => x == "CardTypes").First());
 
         _classesCollection = mongoDatabase.GetCollection<Class>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Classes").First());
 
         _raritiesCollection = mongoDatabase.GetCollection<Rarity>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Rarities").First());
 
         _setsCollection = mongoDatabase.GetCollection<Set>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.MetaDataCollection.Select().Where(x => x == "Sets").First());
     }
 
     public class F
@@ -60,17 +61,11 @@ public class CardsService
         public String FlavorText { get; set; }
     }
 
-    public async Task<ActionResult<IEnumerable<F>>> GetCards(int id)
+    public async Task<ActionResult<IEnumerable<F>>> GetCards(int? page/*, string? artist, int? setId, int? rarityId, int? classId*/)
     {
-        //IMongoQueryable<F> stuff = from f in _facilitiesCollection.AsQueryable()
-        //                           orderby f.kind
-        //                           select new F
-        //                           {
-        //                               name = f.facilityName,
-        //                               address = f.coordinates,
-        //                           };
-        //return await stuff.ToListAsync();
+        var cards = await _cardsCollection.AsQueryable().ToListAsync();
 
-        //IMongoQueryable<F> stuff = _cardsCollection
+        _cardsCollection.Aggregate();
+        return result.ToList();
     }
 }
