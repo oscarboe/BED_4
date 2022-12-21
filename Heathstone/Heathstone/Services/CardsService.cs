@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using Heathstone.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 
@@ -13,13 +15,13 @@ namespace Heathstone.Services;
 public class CardsService
     {
     private readonly IMongoCollection<Card> _cardsCollection;
-    private readonly IMongoCollection<CardType> _cardTypesCollection;
-    private readonly IMongoCollection<Class> _classesCollection;
-    private readonly IMongoCollection<Rarity> _raritiesCollection;
-    private readonly IMongoCollection<Set> _setsCollection;
+    private readonly IMongoCollection<JsonObject> _cardTypesCollection;
+    //private readonly IMongoCollection<Class> _classesCollection;
+    //private readonly IMongoCollection<Rarity> _raritiesCollection;
+    //private readonly IMongoCollection<Set> _setsCollection;
 
     public CardsService(
-        IOptions<mongoDBSettings> mongoDbSettings)
+        IOptions<HearthstoneDBSettings> mongoDbSettings)
     {
         var mongoClient = new MongoClient(
             mongoDbSettings.Value.ConnectionString);
@@ -28,19 +30,19 @@ public class CardsService
             mongoDbSettings.Value.DatabaseName);
 
         _cardsCollection = mongoDatabase.GetCollection<Card>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+            mongoDbSettings.Value.CardsCollectionName);
 
-        _cardTypesCollection = mongoDatabase.GetCollection<CardType>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+        _cardTypesCollection = mongoDatabase.GetCollection<JsonObject>(
+            mongoDbSettings.Value.MetaDataCollection);
 
-        _classesCollection = mongoDatabase.GetCollection<Class>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+        //_classesCollection = mongoDatabase.GetCollection<Class>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
 
-        _raritiesCollection = mongoDatabase.GetCollection<Rarity>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+        //_raritiesCollection = mongoDatabase.GetCollection<Rarity>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
 
-        _setsCollection = mongoDatabase.GetCollection<Set>(
-            mongoDbSettings.Value.FacilitiesCollectionName);
+        //_setsCollection = mongoDatabase.GetCollection<Set>(
+        //    mongoDbSettings.Value.FacilitiesCollectionName);
     }
 
     public class F
@@ -71,6 +73,16 @@ public class CardsService
         //                           };
         //return await stuff.ToListAsync();
 
-        //IMongoQueryable<F> stuff = _cardsCollection
+        var stuff = await _cardsCollection
+                        .Find(new BsonDocument())
+                        .Skip((id - 1) * 100)
+                        .Limit(100)
+                        .ForEachAsync(f => 
+                            new F 
+                            { 
+                                Id = f.Id, 
+                                Name = f.Name, 
+                                Class = 
+                            });
     }
 }
