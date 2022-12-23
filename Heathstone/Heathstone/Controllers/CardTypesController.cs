@@ -9,14 +9,20 @@ namespace Heathstone.Controllers
     public class CardTypesController : Controller
     {
         private readonly CardTypesService _Service;
+        private readonly ILogger _logger;
 
-        public CardTypesController(CardTypesService service)
+        public CardTypesController(CardTypesService service, ILogger<CardTypesController> logger)
         {
             _Service = service;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CardType>>> GetCardType() =>
-            await _Service.GetCardType();
+        public async Task<ActionResult<IEnumerable<CardType>>> GetCardType()
+        {
+            _logger.LogInformation("GetCardType called");
+            return await _Service.GetCardType();
+
+        }
     }
 }

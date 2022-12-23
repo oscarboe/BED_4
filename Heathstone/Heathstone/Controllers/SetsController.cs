@@ -9,14 +9,20 @@ namespace Heathstone.Controllers
     public class SetsController : Controller
     {
         private readonly SetsService _Service;
+        private readonly ILogger _logger;
 
-        public SetsController(SetsService service)
+        public SetsController(SetsService service, ILogger<SetsController> logger)
         {
             _Service = service;
+            _logger = logger;
         }
 
+
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Set>>> GetSets() =>
-            await _Service.GetSets();
+        public async Task<ActionResult<IEnumerable<Set>>> GetSets()
+        {
+            _logger.LogInformation("GetSets called");
+            return await _Service.GetSets();
+        }
     }
 }

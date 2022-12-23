@@ -9,14 +9,18 @@ namespace Heathstone.Controllers
     public class RaritiesController : Controller
     {
         private readonly RaritiesService _Service;
-
-        public RaritiesController(RaritiesService service)
+        private readonly ILogger _logger;
+        public RaritiesController(RaritiesService service, ILogger<RaritiesController> logger)
         {
             _Service = service;
+            _logger = logger;
         }
-
+        
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<Rarity>>> GetRarities() =>
-            await _Service.GetRarities();
+        public async Task<ActionResult<IEnumerable<Rarity>>> GetRarities()
+        {
+            _logger.LogInformation("GetRarities called");
+            return await _Service.GetRarities();
+        }
     }
 }

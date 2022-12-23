@@ -9,14 +9,19 @@ namespace Heathstone.Controllers
     public class ClassesController : Controller
     {
         private readonly ClassesService _Service;
+        private readonly ILogger _logger;
 
-        public ClassesController(ClassesService service)
+        public ClassesController(ClassesService service, ILogger<ClassesController> logger)
         {
             _Service = service;
+            _logger = logger;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Class>>> GetClasses() =>
-            await _Service.GetClasses();
+        public async Task<ActionResult<IEnumerable<Class>>> GetClasses()
+        {
+            _logger.LogInformation("GetClasses called");
+            return await _Service.GetClasses();
+        }
     }
 }
